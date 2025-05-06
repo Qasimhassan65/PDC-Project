@@ -1,0 +1,15 @@
+-- Run Sequential
+g++ -o Sequential Sequential.cpp
+./Sequential
+
+
+
+-- Run Hybrid
+mpic++ -fopenmp -o Hybrid_execution Hybrid_execution.cpp
+mpirun -np 4 ./Hybrid_execution 3
+
+
+-- Run MPI
+mpic++ -fopenmp -o mpi_execution mpi_execution.cpp
+mpirun -np 4 ./mpi_execution
+
