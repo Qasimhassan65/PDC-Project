@@ -8,13 +8,12 @@
 
 using namespace std;
 
-// Enable/disable output
 #define GENERATE_OUTPUT 1
 
-// Factorials for n=0 to n=10
 const vector<long long> factorial_values = {1, 1, 2, 6, 24, 120, 720, 5040, 40320, 362880, 3628800};
 
-// Swap value x with its immediate successor in array v
+
+
 void swap_with_next(vector<int>& v, int x) {
     auto iter = find(v.begin(), v.end(), x);
     size_t idx = distance(v.begin(), iter);
@@ -23,7 +22,6 @@ void swap_with_next(vector<int>& v, int x) {
     }
 }
 
-// Find the rightmost position where the value doesn't match its sorted position
 int get_last_out_of_order(const vector<int>& v) {
     int n = v.size();
     int i = n - 1;
@@ -36,7 +34,8 @@ int get_last_out_of_order(const vector<int>& v) {
     return 0;
 }
 
-// Calculate predecessor when last element is n and tree_num != n-1
+
+
 vector<int> find_previous(const vector<int>& v, int tree_num, int n) {
     vector<int> ordered(n);
     for (int i = 0; i < n; ++i) ordered[i] = i + 1;
@@ -59,7 +58,8 @@ vector<int> find_previous(const vector<int>& v, int tree_num, int n) {
     return result;
 }
 
-// Determine the parent of array v in the tree_num-th spanning tree
+
+
 vector<int> get_parent_node(const vector<int>& v, int tree_num, int n) {
     vector<int> ordered(n);
     for (int i = 0; i < n; ++i) ordered[i] = i + 1;
@@ -91,7 +91,8 @@ vector<int> get_parent_node(const vector<int>& v, int tree_num, int n) {
     return result;
 }
 
-// Produce the k-th permutation in lexicographic order
+
+
 vector<int> produce_permutation(int n, long long k) {
     vector<int> result(n);
     vector<int> available(n);
@@ -110,38 +111,40 @@ vector<int> produce_permutation(int n, long long k) {
 }
 
 int main() {
-    // Start timing
+
     auto start_overall = chrono::high_resolution_clock::now();
     auto start_processing = chrono::high_resolution_clock::now();
 
-    const int network_size = 10; // Dimension of bubble-sort network
+    const int network_size = 10;
     const long long total_perms = factorial_values[network_size];
-    const long long output_limit = 120; // Limit output to first 5! permutations
+    const long long output_limit = 120;
 
-    // Initialize output file
+
+
     ofstream data_output("Sequential_results.txt");
     if (!data_output.is_open()) {
         cerr << "Error: Failed to create output file" << endl;
         return 1;
     }
 
-    // Initialize timing file
+
     ofstream metrics_output("Sequential_metrics.txt");
     if (!metrics_output.is_open()) {
         cerr << "Error: Failed to create timing file" << endl;
         return 1;
     }
 
-    // Write aesthetically pleasing header
+
     if (GENERATE_OUTPUT) {
         data_output << "╔══════════════════════════════════════════════════════════════╗\n";
         data_output << "║                Permutation Ancestor Analysis                 ║\n";
         data_output << "╚══════════════════════════════════════════════════════════════╝\n";
-        data_output << "  Permutation           |  Tree  |  Parent              \n";
+        data_output << "  Permutations         |  Tree  |  Parent              \n";
         data_output << "═══════════════════════╪════════╪══════════════════════\n";
     }
 
-    // Process permutations
+
+
     long long current_idx = 0;
     while (current_idx < total_perms) {
         vector<int> perm = produce_permutation(network_size, current_idx);
@@ -169,14 +172,16 @@ int main() {
 
     auto end_writing = chrono::high_resolution_clock::now();
     auto end_overall = chrono::high_resolution_clock::now();
-
-    // Write timing metrics in a tabular format
+    
+    
+    
+    
     metrics_output << fixed << setprecision(6);
     metrics_output << "╔════════════════════════════════════════════════════╗\n";
     metrics_output << "║               Performance Metrics                  ║\n";
     metrics_output << "╚════════════════════════════════════════════════════╝\n";
     metrics_output << "┌──────────────────────────────┬─────────────────────┐\n";
-    metrics_output << "│ Metric                       │ Value               │\n";
+    metrics_output << "│ Perf. Metric                 │ Perf. Value         │\n";
     metrics_output << "├──────────────────────────────┼─────────────────────┤\n";
     metrics_output << "│ Total Duration               │ " << setw(12) << chrono::duration<double>(end_overall - start_overall).count() << " seconds │\n";
     metrics_output << "│ Computation Duration         │ " << setw(12) << chrono::duration<double>(end_processing - start_processing).count() << " seconds │\n";
